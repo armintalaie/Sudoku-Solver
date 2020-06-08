@@ -1,7 +1,6 @@
 """kkdffk"""
 
 # Data
-modified = 0
 full_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 all_square_options = [[] for i in range(9)]
 all_cell_options = [[] for _ in range(9) for _ in range(9)]
@@ -54,67 +53,51 @@ def iterate_options(sudoku, num):
             if sudoku[i][m] == 0:
                 finished = False
 
-            # print(all_row_options[i])
-            # print(all_square_options[(i - i % 3) + int((m - m % 3) / 3)])
+            #if i == 1 and m == 4:
+                 # print(all_row_options[i])
+                 # print(all_col_options[m])
+                 # print(all_square_options[(i - i % 3) + int((m - m % 3) / 3)])
             cell_options = list(set(all_row_options[i]) & set(all_col_options[m]) &
                                 set(all_square_options[(i - i % 3) + int((m - m % 3) / 3)]))
-            print(str(i) + " tt " + str(m) + "   " + str(cell_options))
+            # print(str(i) + " tt " + str(m) + "   " + str(cell_options))
             ra = len(cell_options)
             if ra == 0:
                 return False
 
             if 1 <= ra <= num:
-                for _ in range(ra):
-                    #if i == 0 and j == 0:
-                    print(cell_options)
-                    print("sfds")
-                    #print(cell_options)
-                    all_row_options[i].remove(cell_options[0])
-                    all_col_options[m].remove(cell_options[0])
-                    all_square_options[(i - i % 3) + int((m - m % 3) / 3)].remove(cell_options[0])
-                    sudoku[i][m] = cell_options[0]
-                    #print(sudoku[i][m])
+                for p in range(ra):
+                    all_row_options[i].remove(cell_options[p])
+                    all_col_options[m].remove(cell_options[p])
+                    all_square_options[(i - i % 3) + int((m - m % 3) / 3)].remove(cell_options[p])
+                    sudoku[i][m] = cell_options[p]
+                    # print(str(cell_options) + "    " +  str(sudoku[i][m]))
 
                     if iterate_options(sudoku, num):
                         changed = True
-                        global modified
-                        for k in range(9):
-                            print(sudoku[k])
-                    elif num < 9:
-                        if iterate_options(sudoku, num + 1):
-                            changed = True
-                            global modified
-                        else:
-                            all_row_options[i].append(cell_options[0])
-                            all_col_options[m].append(cell_options[0])
-                            all_square_options[(i - i % 3) + int((m - m % 3) / 3)].append(cell_options[0])
-                            sudoku[i][m] = 0
+                        return True
+
+                    else:
+                        # print(str(cell_options) + "    " + str(sudoku[i][m]))
+                        all_row_options[i].append(cell_options[p])
+                        all_col_options[m].append(cell_options[p])
+                        all_square_options[(i - i % 3) + int((m - m % 3) / 3)].append(cell_options[p])
+                        sudoku[i][m] = 0
+                        # print(str(cell_options) + "    " + str(sudoku[i][m]))
+
+                if not changed:
+                    #print("meowwwwww")
+                    return False
 
     if finished:
         return True
-
-    if changed:
-        return iterate_options(sudoku, num)
-   # elif num < 10 :
-    #    iterate_options(sudoku, num + 1)
-    #else:
-     #   return False
-
-
-
-
-
-def go_rogue(sudoku):
-    pass
 
 
 def solve_sudoku(sudoku):
     update_sudoku(sudoku)
     iterate_options(sudoku, 9)
 
+
 # running program
-
-
 with open("SampleSudoku's", "r") as File1:
     sudoku_input = [[0 for _ in range(9)] for _ in range(9)]
     temp = File1.readlines()
@@ -122,14 +105,13 @@ with open("SampleSudoku's", "r") as File1:
         for i in range(0, 9):
             sudoku_input[j][i] = int(line[i:i + 1])
 
+print("input:")
 for k in range(9):
     print(sudoku_input[k])
 
 solve_sudoku(sudoku_input)
 
-print("\n\n\n\n")
 
+print("solution:")
 for k in range(9):
     print(sudoku_input[k])
-
-print(modified)
