@@ -53,10 +53,10 @@ def iterate_options(sudoku, num):
             if sudoku[i][m] == 0:
                 finished = False
 
-            #if i == 1 and m == 4:
-                 # print(all_row_options[i])
-                 # print(all_col_options[m])
-                 # print(all_square_options[(i - i % 3) + int((m - m % 3) / 3)])
+            # if i == 1 and m == 4:
+            # print(all_row_options[i])
+            # print(all_col_options[m])
+            # print(all_square_options[(i - i % 3) + int((m - m % 3) / 3)])
             cell_options = list(set(all_row_options[i]) & set(all_col_options[m]) &
                                 set(all_square_options[(i - i % 3) + int((m - m % 3) / 3)]))
             # print(str(i) + " tt " + str(m) + "   " + str(cell_options))
@@ -85,7 +85,7 @@ def iterate_options(sudoku, num):
                         # print(str(cell_options) + "    " + str(sudoku[i][m]))
 
                 if not changed:
-                    #print("meowwwwww")
+                    # print("meowwwwww")
                     return False
 
     if finished:
@@ -111,7 +111,14 @@ for k in range(9):
 
 solve_sudoku(sudoku_input)
 
-
 print("solution:")
 for k in range(9):
     print(sudoku_input[k])
+
+# TODO: add more sample sudoku's to solve
+# TODO: add the ability to also check with upper/lower rows/column for a narrower margin of options
+# TODO: look on the internet for more efficient ways to implement this program
+# TODO: add and improve the logic and timing of the program
+# TODO: cleanup code and learn python  programming design guides
+# TODO: break down the project in multiple more readable files
+# TODO: add a GUI to make the program look nicer
